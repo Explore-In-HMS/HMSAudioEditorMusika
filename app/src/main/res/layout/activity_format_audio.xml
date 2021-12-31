@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/mine_bg"
+    tools:context=".FormatAudioActivity">
+
+    <Button
+        android:id="@+id/select_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Audio File"
+
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+         android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner"
+         android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.364"
+        app:layout_constraintVertical_bias="1.0"
+
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:id="@+id/source_file_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Convert To : "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColorLink="#FFFFFF"
+
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            tools:ignore="HardcodedText" />
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="30dp"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/filename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="File Name"
+        android:inputType="text"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        tools:ignore="Autofill,HardcodedText" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="20dp"
+        android:progress="0"
+        android:max="100"
+        style="?android:attr/progressBarStyleHorizontal"/>
+    <TextView
+        android:id="@+id/txt_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:textColor="#FFFFFF"
+        android:id="@+id/format_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Convert"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner"
+         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.364"
+        app:layout_constraintVertical_bias="1.0"
+
+        android:layout_marginTop="20dp" />
+    <TextView
+        android:id="@+id/dest_file_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"/>
+</LinearLayout>
