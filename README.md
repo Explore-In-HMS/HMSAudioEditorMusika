@@ -1,4 +1,4 @@
- <h1 align="center">HMS 3D Modelling Collection App Github Documentation</h3>
+ <h1 align="center">HMS Audio Editor - Musika App Github Documentation</h3>
  
  ![Latest Version](https://img.shields.io/badge/latestVersion-1.0.0-yellow) ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 <br>
@@ -7,11 +7,11 @@
 
 # Introduction
 
-In this documentation we explained development steps of 3D Modelling Collection App.
+In this documentation we explained development steps of HMS Audio Editor - Musika App.
 
 # Compatibility
 
-|   | Show 3D Model | 3D Object Reconstruction |
+|   | Audio Edit | Convert Audio File Type |
 | --- | --- | --- |
 | Native (Java) | ✅ | ✅ |
 
@@ -19,8 +19,8 @@ In this documentation we explained development steps of 3D Modelling Collection 
   
 # Register a developer account on HUAWEI Developers and configure.
 
-1. Register in to [Huawei Developer Console] (https://developer.huawei.com/consumer/en/console) and Create and configure an app and enable 3D Modeling Kit in AppGallery Connect.
-2. To use 3D Modeling Kit, you need to enable it in AppGallery Connect. For details, please refer to Enabling Services(https://developer.huawei.com/consumer/en/doc/distribution/app/agc-help-enabling-service-0000001146598793).
+1. Register in to [Huawei Developer Console] (https://developer.huawei.com/consumer/en/console) and Create and configure an app and enable Audio Editor in AppGallery Connect.
+2. To use Audio Editor Kit, you need to enable it in AppGallery Connect. For details, please refer to Enabling Services(https://developer.huawei.com/consumer/en/doc/distribution/app/agc-help-enabling-service-0000001146598793).
 
 
 ##   Adding the AppGallery Connect Configuration File of Your App
@@ -63,116 +63,80 @@ allprojects {
 4. Adding Build Dependencies
 ```groovy
 dependencies { 
-    // For reconstruct we need to login
-    implementation 'com.huawei.hms:hwid:6.3.0.300'
-    implementation 'com.huawei.hms:modeling3d-object-reconstruct:{version}' 
-     
-     // CameraX
-    def camerax_version = "1.0.0-rc01"
-    // The following line is optional, as the core library is included indirectly by camera-camera2
-    implementation "androidx.camera:camera-core:${camerax_version}"
-    implementation "androidx.camera:camera-camera2:${camerax_version}"
-    // If you want to additionally use the CameraX Lifecycle library
-    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
-    // If you want to additionally use the CameraX View class
-    implementation "androidx.camera:camera-view:1.0.0-alpha20"
+   implementation 'com.huawei.hms:audio-editor-sdk:1.1.0.300'
+   implementation 'com.huawei.hms:audio-editor-ui:1.1.0.300'
 }
 ```
 ## **Permissions**
 ```xml
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+ <!-- Vibrate -->
+ <uses-permission android:name="android.permission.VIBRATE" />
+ <!-- Microphone -->
+ <uses-permission android:name="android.permission.RECORD_AUDIO" />
+ <!-- Write into storage -->
+ <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ <!-- Read from storage -->
+ <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+ <!-- Connect to Internet -->
+ <uses-permission android:name="android.permission.INTERNET" />
+ <!-- Obtain the network status -->
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+ <!-- Obtain the changed network connectivity state -->
+ <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+ <!-- Manage files. Declare this permission only when the version of Android in use is 11 or later. -->
+ <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 ```
-## **3D Reconstruct**
+## **Initializing the Running Environment**
 ```java
-      //Init Engine
-      magic3dReconstructEngine = Modeling3dReconstructEngine.getInstance(Modeling3dApp.app);
-     //Create Listener
-       private Modeling3dReconstructDownloadListener magic3dReconstructDownloadListener = new Modeling3dReconstructDownloadListener() {
-        @Override
-        public void onDownloadProgress(String taskId, double progress, Object ext) {
-            dialog.setCurrentProgress(progress);
-        }
-
-        @Override
-        public void onResult(String taskId, Modeling3dReconstructDownloadResult result, Object ext) {
-            ((Activity) mContext).runOnUiThread(() -> {
-                Toast.makeText(getContext(), "Download completed", Toast.LENGTH_SHORT).show();
-                TaskInfoAppDbUtils.updateDownloadByTaskId(taskId, 1);
-                dialog.dismiss();
-            });
-        }
-
-        @Override
-        public void onError(String taskId, int errorCode, String message) {
-            LogUtil.e(taskId + " <---> " + errorCode + message);
-            ((Activity) mContext).runOnUiThread(() -> {
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            });
-        }
-    };
-        private final Modeling3dReconstructUploadListener uploadListener = new Modeling3dReconstructUploadListener() {
-        @Override
-        public void onUploadProgress(String taskId, double progress, Object ext) {
-            dialog.setCurrentProgress(progress);
-        }
-
-        @Override
-        public void onResult(String taskId, Modeling3dReconstructUploadResult result, Object ext) {
-            if (result.isComplete()) {
-                LogUtil.i(TAG + result.isComplete());
-                TaskInfoAppDbUtils.updateStatusByTaskId(taskId, ConstantBean.MODELS_UPLOAD_COMPLETED_STATUS);
-                updateTaskStatus(adapter, taskId, ConstantBean.MODELS_UPLOAD_COMPLETED_STATUS);
-                dialog.dismiss();
-            }
-        }
-
-        @Override
-        public void onError(String taskId, int errorCode, String message) {
-            LogUtil.i("UPLOAD FAILED-->" + errorCode + "<----->" + message);
-            ((Activity) mContext).runOnUiThread(() -> {
-                dialog.dismiss();
-                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-            });
-        }
-    };
-     // Upload Images
-     magic3dReconstructEngine.uploadFile(news.getTaskId(), news.getFileUploadPath());
-     // Settings
-       Modeling3dReconstructSetting setting = new Modeling3dReconstructSetting.Factory()
-                    .setReconstructMode(type)
-                    .create();
+ // Create an instance of HuaweiAudioEditor.
+ HuaweiAudioEditor mEditor = HuaweiAudioEditor.create(mContext);
+ // Initialize the running environment for HuaweiAudioEditor.
+ mEditor.initEnvironment();
+ // Create a timeline.
+ HAETimeLine mTimeLine = mEditor.getTimeLine();
+ // Create a lane.
+ HAEAudioLane audioLane = mTimeLine.appendAudioLane();
 ```
-## **3D Object Preview**
-We used Android 3D Model Viewer for preview ready objects.
-https://github.com/the3deers/android-3D-model-viewer
+
+## **Import audio**
 ```java
-     // This component will draw the actual models using OpenGL
-     drawer = new DrawerFactory(modelSurfaceView.getContext());
-     // Create an OpenGL ES 2.0 context.
-     setEGLContextClientVersion(2);
-
-     // This is the actual renderer of the 3D space
-     mRenderer = new ModelRenderer(this);
-     setRenderer(mRenderer);
-
-     touchHandler = new TouchController(this, mRenderer);
+ // Add an audio asset to the end of the audio lane.
+ HAEAudioAsset audioAsset = audioLane.appendAudioAsset("/sdcard/download/test.mp3", mTimeLine.getCurrentTime());
 ```
+## **Conver audio file **
+```java
+private fun convertFileToSelectedFormat(context: Context) {
+        // API for converting the audio format.
+        HAEAudioExpansion.getInstance()
+            .transformAudio(context, sourceFilePath, destFilePath, object : OnTransformCallBack {
+                // Called to receive the progress which ranges from 0 to 100.
+                @SuppressLint("SetTextI18n")
+                override fun onProgress(progress: Int) {
+                    progressBar!!.visibility = View.VISIBLE
+                    txtProgress!!.visibility = View.VISIBLE
+                    progressBar!!.progress = progress
+                    txtProgress!!.text = "$progress/100"
+                }
+                // Called when the conversion fails.
+                override fun onFail(errorCode: Int) {
+                    Toast.makeText(context, "Fail", Toast.LENGTH_SHORT).show()
+                }
+                // Called when the conversion succeeds.
+                @SuppressLint("SetTextI18n")
+                override fun onSuccess(outPutPath: String) {
+                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                    txtDestFilePath!!.text = "Destination Path : $outPutPath"
+                }
+                // Cancel conversion.
+                override fun onCancel() {
+                    Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+  ```
+
 ## **Main Page**
+ 
+![audio1](https://user-images.githubusercontent.com/8115505/147818609-cce8bad9-2ffd-4b10-9600-69537daf4726.jpg)
 
-![image](https://user-images.githubusercontent.com/8115505/147744514-9d74ce47-746b-4611-a444-9d5432e6cc2a.png)
 
-## **3D Modelling Page**
-
-![image](https://user-images.githubusercontent.com/8115505/147745090-d7a76a0e-bb64-48b5-a384-68ed54c10f95.png)
-
-## **Capture Photos**
-![image](https://user-images.githubusercontent.com/8115505/147745166-8ff5527f-d90c-455c-975a-3b0921e6e810.png)
-
-![image](https://user-images.githubusercontent.com/8115505/147744988-0b163891-ee91-4955-a9ba-0c3150cddfce.png)
