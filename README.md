@@ -146,6 +146,7 @@ private fun convertFileToSelectedFormat(context: Context) {
 ## **Main Page**
  
 ![audio1](https://user-images.githubusercontent.com/8115505/147818609-cce8bad9-2ffd-4b10-9600-69537daf4726.jpg)
-![image](https://user-images.githubusercontent.com/8115505/149723835-599315ba-cb1c-4d16-8681-2c69176a24ea.png)
-![Screenshot_20220117_100911_com huawei musika](https://user-images.githubusercontent.com/8115505/149723616-2ae1f446-eff7-430a-b7d9-5b2252a9d8b1.jpg)
-![Screenshot_20220117_100928_com huawei musika](https://user-images.githubusercontent.com/8115505/149723618-d7e45d98-6200-4601-aabe-540a5d5f56a8.jpg)
+
+ 
+![Screenshot_20220117_100911_com huawei musika](https://user-images.githubusercontent.com/8115505/149723616-2ae1f446-eff7-430a-b7d9-5b2252a9d8b1.jpg =250x250)
+![Screenshot_20220117_100928_com huawei musika](https://user-images.githubusercontent.com/8115505/149723618-d7e45d98-6200-4601-aabe-540a5d5f56a8.jpg =250x250)
