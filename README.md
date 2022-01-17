@@ -9,6 +9,14 @@
 
 In this documentation we explained development steps of HMS Audio Editor - Musika App.
 
+This project help you to edit audio and set style, adjusting pitch and sound tracks. It also provides the recording feature and user can export the audio file to the directory and shows how to convert audio file types each other like MP3, WAV, or FLAC. 
+
+# Functions
+- Supports basic audio editing operations such as changing the volume, adjusting the tempo or pitch, copying and deleting audio.
+- Supports setting style, arrange sound field
+- Supports audio recording and importing
+- Converts audio format to MP3, WAV or FLAC.
+
 # Compatibility
 
 |   | Audio Edit | Convert Audio File Type |
@@ -139,4 +147,5 @@ private fun convertFileToSelectedFormat(context: Context) {
  
 ![audio1](https://user-images.githubusercontent.com/8115505/147818609-cce8bad9-2ffd-4b10-9600-69537daf4726.jpg)
 
-
+![Screenshot_20220117_100911_com huawei musika](https://user-images.githubusercontent.com/8115505/149723616-2ae1f446-eff7-430a-b7d9-5b2252a9d8b1.jpg)
+![Screenshot_20220117_100928_com huawei musika](https://user-images.githubusercontent.com/8115505/149723618-d7e45d98-6200-4601-aabe-540a5d5f56a8.jpg)
